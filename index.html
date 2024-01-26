@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grade Checker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500;6..12,600;6..12,700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ead12fba14.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ['"Poppins"', "sans-serif"],
+            },
+          },
+          plugins: [],
+        },
+      };
+    </script>
+  </head>
+  <body class="relative bg-gradient-to-r from-indigo-500 to-purple-500">
+    <p
+      class="absolute top-4 left-4 text-white bg-indigo-700 px-4 py-2 rounded flex items-center gap-2 font-semibold text-sm hover:bg-gray-800 transition-colors duration-300 cursor-pointer"
+    >
+      <i class="fa-solid fa-code"></i>
+      Dimas Pamungkas Mursidi
+    </p>
+    <div
+      class="container flex flex-col items-center justify-center w-full min-h-screen mx-auto"
+    >
+      <h2 class="text-4xl font-bold text-white font-semibold mb-6">
+        Grade Checker
+      </h2>
+      <form id="nilaiForm">
+        <input
+          type="number"
+          id="nilaiAngka"
+          placeholder="Masukkan nilai.."
+          class="p-2 border border-gray-300 mb-4 rounded"
+        />
+
+        <button
+          type="button"
+          id="submitButton"
+          class="bg-indigo-700 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors duration-300"
+        >
+          Submit
+        </button>
+      </form>
+
+      <div id="output" class="mt-8"></div>
+      <div id="statusGenapGanjil"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const submitButton = document.getElementById("submitButton");
+        const nilaiForm = document.getElementById("nilaiForm");
+        const nilaiAngkaInput = document.getElementById("nilaiAngka");
+        const outputContainer = document.getElementById("output");
+        const statusGenapGanjil = document.getElementById("statusGenapGanjil");
+
+        submitButton.addEventListener("click", function () {
+          const nilaiAngka = parseInt(nilaiAngkaInput.value);
+
+          const evenOddStatus =
+            nilaiAngka % 2 === 0 ? "Bilangan Genap" : "Bilangan Ganjil";
+
+          let nilaiHuruf;
+          if (nilaiAngka >= 85 && nilaiAngka <= 100) {
+            nilaiHuruf = "A";
+          } else if (nilaiAngka >= 75 && nilaiAngka <= 84) {
+            nilaiHuruf = "B";
+          } else if (nilaiAngka >= 60 && nilaiAngka <= 74) {
+            nilaiHuruf = "C";
+          } else if (nilaiAngka >= 0 && nilaiAngka < 60) {
+            nilaiHuruf = "D";
+          } else {
+            alert("Masa nilai lebih dari 100 sih.. hmm.. 0-100 aja.");
+            nilaiHuruf = "Nilai tidak valid";
+            statusGenapGanjil.textContent = "";
+          }
+
+          const outputHTML = `
+            
+            <div class="text-white">
+              <h2 class="text-xl font-semibold mb-4">Hasil:</h2>
+              <table class="table-auto w-full mb-4">
+                <tbody>
+                  <tr>
+                    <td class="border px-4 py-2">Nilai angka:</td>
+                    <td class="border px-4 py-2">${nilaiAngka}</td>
+                  </tr>
+                  <tr>
+                    <td class="border px-4 py-2">Nilai huruf:</td>
+                    <td class="border px-4 py-2">${nilaiHuruf}</td>
+                  </tr>
+                  <tr>
+                    <td class="border px-4 py-2">Status Genap/Ganjil:</td>
+                    <td class="border px-4 py-2" id="statusGenapGanjil">${evenOddStatus}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            `;
+
+          outputContainer.innerHTML = outputHTML;
+        });
+
+        // Optional: Menangani submit form untuk mencegah refresh halaman
+        nilaiForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+        });
+      });
+    </script>
+  </body>
+</html>
